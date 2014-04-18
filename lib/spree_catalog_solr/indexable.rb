@@ -10,6 +10,9 @@ module SpreeCatalogSolr
       def make_me_indexable
         searchable(auto_index: false, auto_remove: false) do
           integer :id, stored: true
+          integer :taxon_ids, stored: true, multiple: true do
+            taxons.map(&:id)
+          end
 
           double :price, stored: true
 
@@ -27,41 +30,31 @@ module SpreeCatalogSolr
             taxons.map(&:name)
           end
 
+          string :master, stored: true do
+            SpreeCatalogSolr::Utils.build_variant_hash(master).to_json
+          end
+
           string :variants, stored: true do
-            ([master] + variants_and_option_values).inject({}) do |final, variant|
-              final[variant.id] = {
-                  option_text: variant.options_text,
-                  is_master: true,
-                  price: variant.price,
-                  sku: variant.sku,
-                  position: variant.position
-              }
-              final
+            variants_and_option_values.collect do |v|
+              SpreeCatalogSolr::Utils.build_variant_hash(v)
             end.to_json
           end
 
-          string :images, stored: true do
-            (images + variant_images).inject([]) do |final, image|
-              final << [
-                  viewable_id: image.viewable_id,
-                  viewable_type: image.viewable_type,
-                  alt: image.alt,
-                  position: image.position,
-                  versions: {
-                      mini: image.attachment.url(:mini),
-                      small: image.attachment.url(:small),
-                      product: image.attachment.url(:product),
-                      large: image.attachment.url(:large),
-                      original: image.attachment.url(:original)
-                  }
-              ]
-              final
-            end.flatten.to_json
+          string :option_types, stored: true do
+            option_types.collect do |option_type|
+              {
+                  id: option_type.id,
+                  name: option_type.name,
+                  presentation: option_type.presentation,
+                  position: option_type.position
+              }
+            end.to_json
           end
 
           string :product_properties, stored: true do
             product_properties.collect do |property|
               {
+                  id: property.id,
                   name: property.property.name,
                   value: property.value
               }
