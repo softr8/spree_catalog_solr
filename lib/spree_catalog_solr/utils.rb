@@ -26,7 +26,8 @@ module SpreeCatalogSolr
             price: variant.price,
             slug: variant.slug,
             in_stock: variant.in_stock?,
-            images: build_images_array(variant)
+            images: build_images_array(variant),
+            option_values: variant.option_values
         }
       end
     end
