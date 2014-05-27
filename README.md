@@ -19,6 +19,21 @@ bundle
 bundle exec rails g spree_catalog_solr:install
 ```
 
+Adding Custom Fields
+--------------------
+
+To index a custom field just open a configuration block and add it to the extra_fields array:
+
+```ruby
+SpreeCatalogSolr::Config.setup do |config|
+  config.extra_fields = [
+    { name: 'brand', type: 'string' }
+  ]
+end
+```
+
+You will need to add the implementation for this brand method inside your model.
+
 Testing
 -------
 
