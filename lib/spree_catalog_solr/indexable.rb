@@ -62,6 +62,10 @@ module SpreeCatalogSolr
             end.to_json
           end
 
+          SpreeCatalogSolr::Config[:extra_fields].each do |field|
+            send field[:type], field[:name], stored: true
+          end
+
         end
       end
     end
