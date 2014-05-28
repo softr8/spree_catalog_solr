@@ -5,7 +5,7 @@ module SpreeCatalogSolr
     attr_accessor :extra_fields
 
     def initialize
-      extra_fields = []
+      @extra_fields = []
     end
 
     # Config.setup {|config| config.extra_fields = {}}
@@ -17,5 +17,6 @@ module SpreeCatalogSolr
     def self.[] field
       instance.send(field)
     end
+
   end
 end
