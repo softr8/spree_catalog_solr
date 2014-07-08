@@ -30,6 +30,10 @@ module SpreeCatalogSolr
             taxons.map(&:name)
           end
 
+          integer :similar_products_ids, stored: true, multiple: true do
+            related_products_ids(:similar)
+          end
+
           string :master, stored: true do
             SpreeCatalogSolr::Utils.build_variant_hash(master).to_json
           end
