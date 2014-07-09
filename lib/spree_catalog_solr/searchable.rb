@@ -7,6 +7,7 @@ module SpreeCatalogSolr
         extend SpreeCatalogSolr::Indexable::MakeItIndexable
         Sunspot::Adapters::DataAccessor.register(DataAccessor, base)
         Sunspot::Adapters::InstanceAdapter.register(InstanceAdapter, base)
+        include SpreeCatalogSolr::Methods
       end
     end
 
@@ -24,4 +25,5 @@ module SpreeCatalogSolr
       end
     end
   end
+
 end
