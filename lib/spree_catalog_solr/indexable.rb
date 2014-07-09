@@ -3,6 +3,7 @@ module SpreeCatalogSolr
     def self.included(base)
       base.class_eval do
         extend MakeItIndexable
+        include Methods
       end
     end
 
@@ -28,6 +29,10 @@ module SpreeCatalogSolr
           end
           string :taxons, stored: true, multiple: true do
             taxons.map(&:name)
+          end
+
+          integer :similar_products_ids, stored: true, multiple: true do
+            related_products_ids(:similar)
           end
 
           string :master, stored: true do
@@ -67,6 +72,12 @@ module SpreeCatalogSolr
           end
 
         end
+      end
+    end
+
+    module Methods
+      def related_products_ids(relation_type_name)
+        []
       end
     end
   end
