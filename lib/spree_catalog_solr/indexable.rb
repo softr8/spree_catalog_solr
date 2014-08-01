@@ -22,10 +22,10 @@ module SpreeCatalogSolr
           string :slug, stored: true
           text :meta_description, stored: true
           string :primary_image, stored: true do
-            images.first.attachment.url(:large)
+            images.first.attachment.url(:large) if images.any?
           end
           string :primary_image_thumb, stored: true do
-            images.first.attachment.url(:small)
+            images.first.attachment.url(:small) if images.any?
           end
           string :taxons, stored: true, multiple: true do
             taxons.map(&:name)
