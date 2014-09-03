@@ -9,8 +9,9 @@ module SpreeCatalogSolr
               alt: image.alt,
               mini_url: image.attachment.url(:mini),
               small_url: image.attachment.url(:small),
+              mobile_url: image.attachment.url(:mobile),
+              medium_url: image.attachment.url(:medium),
               product_url: image.attachment.url(:product),
-              large_url: image.attachment.url(:large),
               original_url: image.attachment.url(:original)
           }
         end
